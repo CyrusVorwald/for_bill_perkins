@@ -43,16 +43,16 @@ AIRPORT_DATA_DF = pd.read_csv(AIRPORT_DATA_PATH)
 TEMPERATURE_DATA_DF = pd.read_csv(TEMPERATURE_DATA_PATH)
 TEMPERATURE_DATA_DF = TEMPERATURE_DATA_DF.set_index('location_date')
 
-# if MODE == Mode.WRITE:
-#     LOGGER.info(f"Clearing data...")
-#     CLIENT.delete_api().delete("2015-01-01T00:00:00Z", "2022-01-01T00:00:00Z", '_measurement="Ticker"', bucket=BUCKET,
-#                                org=ORG)
-#     LOGGER.info(f"Cleared data")
-#
-#     LOGGER.info(f"Writing data...")
-#     WRITE_API.write(BUCKET, ORG, TEMPERATURE_DATA_DF, data_frame_measurement_name='Ticker',
-#                     data_frame_tag_columns=['station_code'])
-#     LOGGER.info(f"Data written")
+if MODE == Mode.WRITE:
+    LOGGER.info(f"Clearing data...")
+    CLIENT.delete_api().delete("2015-01-01T00:00:00Z", "2022-01-01T00:00:00Z", '_measurement="Ticker"', bucket=BUCKET,
+                               org=ORG)
+    LOGGER.info(f"Cleared data")
+
+    LOGGER.info(f"Writing data...")
+    WRITE_API.write(BUCKET, ORG, TEMPERATURE_DATA_DF, data_frame_measurement_name='Ticker',
+                    data_frame_tag_columns=['station_code'])
+    LOGGER.info(f"Data written")
 
 POPULATION_DATA_DF = pd.read_csv(POPULATION_DATA_PATH)
 TOTAL_POPULATION = POPULATION_DATA_DF['population'].sum()
