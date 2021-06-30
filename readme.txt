@@ -2,7 +2,7 @@ Response to https://twitter.com/bp22/status/1409278019886370838
 
 Run by cloning the project and entering the following in the terminal:
 > pip install -r requirements.txt
-> python3 -m main.py
+> python3 main.py
 
 I added airport code data (from here: https://github.com/datasets/airport-codes/blob/master/data/airport-codes.csv)
 because the data sent is unclear. For example, KIAD is in VA, not DC; KDCA is in VA, not Washington.
