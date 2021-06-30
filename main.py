@@ -2,6 +2,8 @@ import json
 import math
 from typing import List, Tuple
 
+import plotly.graph_objects as go
+
 import pandas as pd
 
 from definitions import LATITUDES_BY_AIRPORT, LONGITUDES_BY_AIRPORT, POPULATION_DATA_DF, \
@@ -31,7 +33,7 @@ def get_nearest_city_from_airport(airport: str) -> Tuple[str, str]:
     return city, state
 
 
-def knn(city: str, state: str, k: int = 3, radius: int = 1) -> List[Tuple[str, str]]:
+def knn(city: str, state: str, k: int = 3, radius: int = .22) -> List[Tuple[str, str]]:
     """
     Gets the nearest k cities in POPULATION_DATA_DF from a city within the bounds of radius. Skips any cities in
     VISITED so that they are not double counted.
@@ -148,17 +150,19 @@ def main():
         'datetime64[ns, UTC]')
     population_weighted_min_temperatures_ts.index = population_weighted_min_temperatures_ts.index.astype(
         'datetime64[ns, UTC]')
-    p_21 = pd.concat([population_weighted_mean_temperatures_ts,
-                      population_weighted_mean_temperatures_ts.resample('3M').mean(),
-                      population_weighted_max_temperatures_ts.resample('3M').max(),
-                      population_weighted_min_temperatures_ts.resample('3M').min()], axis=1)
+    seasonal_mean = population_weighted_mean_temperatures_ts.resample('3M').mean()
+    seasonal_max = population_weighted_max_temperatures_ts.resample('3M').max()
+    seasonal_min = population_weighted_min_temperatures_ts.resample('3M').min()
 
-    p_21.columns = ['Temperature', 'Seasonal Average', 'Seasonal Max', 'Seasonal Min']
-    p_21['Seasonal Average'].interpolate(method='time', inplace=True)
-    p_21['Seasonal Max'].interpolate(method='time', inplace=True)
-    p_21['Seasonal Min'].interpolate(method='time', inplace=True)
-
-    fig = p_21.plot(title="US Population Weighted Daily and Seasonal Temperature")
+    data = [go.Scatter(x=population_weighted_mean_temperatures_ts.index,
+                       y=population_weighted_mean_temperatures_ts.values, name='Temperature'),
+            go.Scatter(x=seasonal_mean.index,
+                       y=seasonal_mean.values, name='Seasonal Average'),
+            go.Scatter(x=seasonal_max.index,
+                       y=seasonal_max.values, name='Seasonal Max'),
+            go.Scatter(x=seasonal_min.index,
+                       y=seasonal_min.values, name='Seasonal Min')]
+    fig = go.Figure(data=data)
     fig.show()
     fig.write_html(DAILY_SEASONAL_WEIGHTED_TEMPERATURE_GRAPH_PATH)
 

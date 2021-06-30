@@ -11,8 +11,11 @@ Washington and Wash DC/Dulles both refer to Washington DC.
 We are assuming the population of each city is a good weight to represent the average temperature in the US.
 For this exercise, I loop over each airport, interpolate missing data, find the closest city to the airport,
 take a simple coefficient of that city's population divided by the total population, and then do the same for k=3
-neighboring cities within approximately 69 miles. This is pretty arbitrary and only represents about 50% of the total
-US population. To account for more of the population, the temperature data would need to cover more land.
+neighboring cities within approximately 15 miles. This is pretty arbitrary and only represents about 40% of the total
+US population. To account for more of the population, the temperature data would need to cover more land. With the
+given dataset, there is a tradeoff between how much of the US population is represented, and accuracy of the representation.
+Weather is highly variable and can differ greatly over a small area, so the further away the city is from a station,
+the less accurate the representation will be.
 In reality, population weighted daily temperature timeseries is calculated in a more regional way
 (see https://www.eia.gov/outlooks/steo/special/pdf/2012_sp_04.pdf).
 
