@@ -4,6 +4,11 @@ Run by cloning the project and entering the following in the terminal:
 > pip install -r requirements.txt
 > python3 main.py
 
+Or you can skip to view the results in:
+for_bill_perkins/data/daily_and_seasonal_weighted_temperature.html
+for_bill_perkins/data/monthly_weighted_temperature.html
+for_bill_perkins/data/missing_data.html
+
 I added airport code data (from here: https://github.com/datasets/airport-codes/blob/master/data/airport-codes.csv)
 because the data sent is unclear. For example, KIAD is in VA, not DC; KDCA is in VA, not Washington.
 Washington and Wash DC/Dulles both refer to Washington DC.
